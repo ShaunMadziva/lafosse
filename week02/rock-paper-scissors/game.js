@@ -1,10 +1,6 @@
-// This class represents the rock-paper-scissors game.
-// It manages the game logic and player interactions.
-// It imports the Player class and the ComputerPlayer class.
 const { ComputerPlayer } = require("./computerPlayer");
 const { HumanPlayer } = require("./humanPlayer");
-// The Game class is the main class for the rock-paper-scissors game.
-// It manages the game flow, including player choices and determining the winner.
+
 class Game {
   constructor() {
     this.human = null;
@@ -12,37 +8,45 @@ class Game {
   }
 
   getWinner(human, computer) {
+    const humanChoice = human.getChoice();
+    const computerChoice = computer.getChoice();
     let winner;
-    if (
-      (human.getChoice() === "rock" && computer.getChoice() === "paper") ||
-      (human.getChoice() === "paper" && computer.getChoice() === "scissors") ||
-      (human.getChoice() === "scissors" && computer.getChoice() === "rock")
-    ) {
-      computer.addPoints();
-      winner = computer;
-    } else if (
-      (computer.getChoice() === "rock" && human.getChoice() === "paper") ||
-      (computer.getChoice() === "paper" && human.getChoice() === "scissors") ||
-      (computer.getChoice() === "scissors" && human.getChoice() === "rock")
-    ) {
-      human.addPoints();
-      winner = human;
-    } else {
-      winner = "draw";
+
+    // switch case instead of if-else ... faster more readable
+    switch (humanChoice + "-" + computerChoice) {
+      case "paper-rock":
+      case "scissors-paper":
+      case "rock-scissors":
+        computer.addPoints();
+        winner = computer;
+        break;
+
+      case "rock-paper":
+      case "paper-scissors":
+      case "scissors-rock":
+        human.addPoints();
+        winner = human;
+        break;
+
+      default:
+        winner = "draw";
+        break;
     }
+
     return winner;
   }
 }
-
-//
+// Make the players
+// Create instances of the HumanPlayer and ComputerPlayer classes
+// and ready the game.
 const human = new HumanPlayer("Human", 0);
 const computer = new ComputerPlayer("Computer", 0);
 const game = new Game();
 game.human = human;
 game.computer = computer;
 
-//play the game
-game.human.setChoice("scissors");
+// Play the game
+game.human.setChoice("Scissors");
 game.computer.getChoice();
 const winner = game.getWinner(game.human, game.computer);
 
@@ -51,6 +55,7 @@ if (winner === "draw") {
 } else {
   console.log(winner.getName() + " wins!");
 }
+// Show the game outputs
 console.log("Human Score: " + game.human.getScore());
 console.log("Computer Score: " + game.computer.getScore());
 console.log("Human Choice: " + game.human.getChoice());

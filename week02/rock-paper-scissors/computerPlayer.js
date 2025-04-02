@@ -6,6 +6,7 @@ class ComputerPlayer extends Player {
   constructor(name, score) {
     super(name, score);
     this.choice = null;
+    this.score = 0;
   }
 
   // Method to randomly select a choice
@@ -17,7 +18,7 @@ class ComputerPlayer extends Player {
   }
 
   addPoints() {
-    this.score += 1; // Increment the score
+    this.score += 1;
   }
 }
 
